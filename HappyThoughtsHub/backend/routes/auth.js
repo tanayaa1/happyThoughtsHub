@@ -5,15 +5,6 @@ const router = express.Router();
 //controller functions
 const { signupUser, loginUser } = require("../controllers/authController");
 
-// router.get("/", () => {
-// 	try {
-// 		const user = User.signup("example@example.com", "password123", "user");
-// 		console.log("User created:", user);
-// 	} catch (error) {
-// 		console.error("Error creating user:", error.message);
-// 	}
-// });
-
 //login
 router.post("/login", loginUser);
 

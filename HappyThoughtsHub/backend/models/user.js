@@ -5,6 +5,7 @@ const validator = require("validator");
 
 const UserSchema = new Schema(
 	{
+		name: { type: String, required: true },
 		email: {
 			type: String,
 			required: true,
@@ -26,9 +27,9 @@ const UserSchema = new Schema(
 );
 
 // static signup method
-UserSchema.statics.signup = async function (email, password, role) {
+UserSchema.statics.signup = async function (name, email, password, role) {
 	//validation
-	if (!email || !password || !role) {
+	if (!name || !email || !password || !role) {
 		throw Error("All fields must be filled");
 	}
 	if (!validator.isEmail(email)) {
@@ -48,7 +49,7 @@ UserSchema.statics.signup = async function (email, password, role) {
 	const salt = await bcrypt.genSalt(10);
 	const hash = await bcrypt.hash(password, salt);
 
-	const user = await this.create({ email, password: hash, role});
+	const user = await this.create({ name, email, password: hash, role });
 
 	return user;
 };

@@ -27,11 +27,11 @@ const getChat = async (req, res) => {
 
 // create a newt
 const createChat = async (req, res) => {
-  const {title, text} = req.body
+  const {name, title, text} = req.body
 
   // add to the database
   try {
-    const chat = await Chat.create({ title, text })
+    const chat = await Chat.create({name, title, text })
     res.status(200).json(chat)
   } catch (error) {
     res.status(400).json({ error: error.message })

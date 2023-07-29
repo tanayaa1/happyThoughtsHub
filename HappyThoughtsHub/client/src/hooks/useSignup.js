@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
-import url_proxy from "../api/api";
 // const url_proxy = "https://syntax-terminators-hosting-api.vercel.app/";
 
 export const useSignup = () => {
@@ -8,14 +7,14 @@ export const useSignup = () => {
 	const [isLoading, setIsLoading] = useState(null);
 	const { dispatch } = useAuthContext();
 
-	const signup = async (email, password) => {
+	const signup = async (name, email, password, role) => {
 		setIsLoading(true);
 		setError(null);
 
-		const response = await fetch(`${url_proxy}comparazon/user/signup`, {
+		const response = await fetch(`http://localhost:4000/api/auth/signup`, {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({email, password }),
+			body: JSON.stringify({ name, email, password, role }),
 		});
 
 		const json = await response.json();
