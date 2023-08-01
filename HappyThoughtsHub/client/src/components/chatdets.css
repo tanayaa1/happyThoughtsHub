@@ -1,0 +1,37 @@
+/* Add styles for the banner section */
+.banner1 {
+    background-image: url("../assets/img/banner-bg.png");
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Add styles for the chat boxes */
+.chat-box1 {
+    width: 600px;
+    height: 200px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: purple;
+    color: #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+/* Style the chat text */
+.chat-box1 h1 {
+    font-size: 18px;
+    margin: 0;
+}
+
+.chat-box1 p {
+    font-size: 14px;
+    margin: 0;
+}

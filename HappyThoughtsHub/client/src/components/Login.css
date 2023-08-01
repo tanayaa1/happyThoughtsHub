@@ -1,0 +1,60 @@
+.auth-form-container,
+.login-form,
+.register-form {
+    display: flex;
+    flex-direction: column;
+}
+
+
+@media screen and (min-width: 500px) {
+    .auth-form-container {
+        padding: 4rem;
+        margin: 65px 0.5rem;
+        /* Combine the margins */
+        border: 1px solid white;
+        border-radius: 10px;
+    }
+}
+
+label {
+    text-align: left;
+    padding: 0.25rem 0;
+}
+
+input {
+    margin: 0.5rem 0;
+    padding: 1rem;
+    border: none;
+    border-radius: 10px;
+}
+
+button {
+    border: none;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: #7439db;
+}
+
+.link-btn {
+    background: none;
+    color: white;
+    text-decoration: underline;
+
+}
+/* CSS styles for the button */
+button[type="submit"] {
+    background-color: #7439db;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    box-shadow: 0 0 10px 5px white;
+    /* Adjust the values to control the glow effect */
+}
