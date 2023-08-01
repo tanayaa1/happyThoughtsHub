@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const {ObjectId} = mongoose.Schema.Types
+const { ObjectId } = mongoose.Schema.Types;
 const Schema = mongoose.Schema;
 
 const chatSchema = new Schema(
@@ -16,11 +16,10 @@ const chatSchema = new Schema(
 			type: String,
 			required: true,
 		},
-		likes:[{type:ObjectId}],
-liks_count:{type:Number,default:0},
-reports:[{type:ObjectId}],
-reports_count:{type:Number,default:0},
-
+		likes: [{ type: ObjectId }],
+		liks_count: { type: Number, default: 0 },
+		reports: [{ type: ObjectId }],
+		reports_count: { type: Number, default: 0 },
 	},
 	{ timestamps: true }
 );

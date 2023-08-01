@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
 import { ArrowRightCircle } from 'react-bootstrap-icons';
-import 'animate.css';
+// import 'animate.css';
 import "./chatdets.css"
 const ChatDetails = ({ chat }) => {
 
