@@ -30,13 +30,13 @@ function App() {
 							// element={user ? <Chat /> : <Navigate to="/" />}
 							element={<Chat />}
 						/>
-							<Route
-						path="/doctors"
-						element={!user ? <Register /> : <DoctorProfiles></DoctorProfiles>}
+						<Route
+							path="/doctors"
+							element={!user ? <Register /> : <DoctorProfiles></DoctorProfiles>}
 						/>
 						<Route
-						path="/doctors/book"
-						element={!user ? <Register /> : <BookingsPage></BookingsPage>}
+							path="/doctors/book"
+							element={!user ? <Register /> : <BookingsPage></BookingsPage>}
 						/>
 						<Route
 							path="/login"
@@ -46,10 +46,6 @@ function App() {
 							path="/register"
 							element={!user ? <Register /> : <Navigate to="/" />}
 						/>
-					
-							
-							
-					
 					</Routes>
 				</div>
 			</BrowserRouter>
