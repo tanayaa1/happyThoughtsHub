@@ -1,12 +1,12 @@
-const Booking = require('../models/bookingModel')
-const User = require('../models/user')
-const mongoose = require('mongoose')
+const Booking = require("../models/bookingModel");
+const User = require("../models/user");
+const mongoose = require("mongoose");
 
 const getBookings = async (req, res) => {
-    const bookings = await Booking.find({}).sort({createdAt: -1})
-  
-    res.status(200).json(bookings)
-  }
+	const bookings = await Booking.find({}).sort({ createdAt: -1 });
+
+	res.status(200).json(bookings);
+};
 
 // get a single
 const getBooking = async (req, res) => {

@@ -7,6 +7,7 @@ import navIcon2 from "../assets/img/nav-icon2.svg";
 import navIcon3 from "../assets/img/nav-icon3.svg";
 import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
+import Dropdown from "react-bootstrap/Dropdown";
 
 const NavBar = () => {
 	const [activeLink, setActiveLink] = useState("home");
@@ -97,9 +98,18 @@ const NavBar = () => {
 				</div>
 			)}
 			{!user && (
-				<div className="flex space-x-4">
-					<Link to="/login">Login</Link>
-					<Link to="/register">Signup</Link>
+				<div className="mx-2">
+					<Dropdown>
+						<Dropdown.Toggle variant="success" id="dropdown-basic">
+							Sign in
+						</Dropdown.Toggle>
+
+						<Dropdown.Menu>
+							<Dropdown.Item href="/register">As User</Dropdown.Item>
+							<Dropdown.Item href="/registerdoc">As Doctor</Dropdown.Item>
+							{/* <Dropdown.Item href="#/action-3">Something else</Dropdown.Item> */}
+						</Dropdown.Menu>
+					</Dropdown>
 				</div>
 			)}
 			<Nav.Link>
