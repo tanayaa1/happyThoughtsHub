@@ -1,113 +1,101 @@
-import { useEffect, useState } from "react";
-// components
+
+import React ,{ useEffect, useState } from "react";
 import { useChatsContext } from "../hooks/useChatsContext";
-import ChatDetails from "../components/ChatDetails";
+//import ChatDetails from "../components/ChatDetails";
 import ChatForm from "../components/chatForm";
 import { useAuthContext } from "../hooks/useAuthContext";
-
+import { useNavigate, Link } from "react-router-dom";
 const Chat = () => {
-	const { user } = useAuthContext();
-	const { chats, dispatch, state } = useChatsContext();
-	const [data, setData] = useState([]);
+	const navigate = useNavigate();
+  const { user } = useAuthContext();
+  const [likes, setLikes] = useState()
 
-	useEffect(() => {
-		if (user) {
-			console.log(user.token);
-			console.log("Hello");
-			const fetchChats = async () => {
-				const response = await fetch("http://localhost:4000/api/chats", {
-					headers: {
-						Authorization: `Bearer ${user.token}`,
-					},
-				});
-				const json = await response.json();
+  const { chats, dispatch, state } = useChatsContext(); // Use chats and dispatch from the context directly
+  // Remove the local data and setData, as we will now use chats and dispatch
+ 
+  useEffect(() => {
+    if (user) {
+      const fetchChats = async () => {
+        const response = await fetch("http://localhost:4000/api/chats", {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
+        const json = await response.json();
 
-				if (response.ok) {
-					// console.log(json);
-					dispatch({ type: "SET_CHATS", payload: json });
-				}
-			};
-			fetchChats();
-		}
-	}, [user]);
+        if (response.ok) {
+          dispatch({ type: "SET_CHATS", payload: json }); // Update the chats state using the context dispatch
+        }
+      };
+      fetchChats();
+    }
+  }, [user]);
+  const handleClick = (chatId, likes_count) => {
+	if (!user) {
+		navigate("/login");
+		return;
+	}
+	setLikes(likes_count + 1);  
+	//console.log(chatId + " inside the handle click ");
+	fetch(`http://localhost:4000/chats/like/${chatId}`, {
+	  method: "PUT",
+	  body: JSON.stringify({ chatId }), // Send only the required data in the request body
+	  headers: {
+		"Content-Type": "application/json",
+		Authorization: `Bearer ${user.token}`,
+	  },
+	})
+	.then(() => {
+	  // navigate("/wishlist");
+	  console.log(chatId + " liked");
+	})
+	.catch((error) => {
+	  console.error("Error updating like:", error);
+	});
+  };
+  
 
-	const likePost = (id) => {
-		fetch("/like", {
-			method: "put",
-			headers: {
-				"Content-Type": "application/json",
-				//  "Authorization":"Bearer "+localStorage.getItem("jwt")
-			},
-			body: JSON.stringify({
-				chatId: id,
-			}),
-		})
-			.then((res) => res.json())
-			.then((result) => {
-				console.log(result);
-				const newData = data.map((item) => {
-					if (item._id == result._id) {
-						return result;
-					} else {
-						return item;
-					}
-				});
-				setData(newData);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-	};
 
-	return (
-		//  <div className="home">
-		// 	<div className="workouts">
-		// 	// 	{chats &&
-		// 	// 		chats.map((chat) => <ChatDetails chat={chat} key={chat._id} />)}
-		//  </div>
+  return (
+    <div>
+      {chats &&
+        chats.map((chat) => (
+          <div className="border" key={chat._id}>
+            <p>
+              <strong>name: </strong>
+              {chat.name}
+            </p>
+            <p>
+              <strong>title: </strong>
+              {chat.title}
+            </p>
+            <p>
+              <strong>my thoughts: </strong>
+              {chat.text}
+            </p>
+           
+			<i
+              className="material-icons"
+              onClick={() => handleClick(chat._id,chat.likes_count)}
+              style={{ cursor: "pointer" }}
+            >
+              thumb_up
+            </i>
+            <p>{chat.likes.length} likes</p>
+			{/* <button onClick={() => handleClick(chat, chat.likes_count)} size="small">
+											Like 
+											{" "}
+											{chat.likes_count}
+										</button> */}
+            <i className="material-icons">{/* Other icons */}</i>
+         
+            <p>date & time:{chat.createdAt}</p>
+          </div>
+        ))}
 
-		// 	<ChatForm />
-		// </div>
-
-		<div>
-			{chats &&
-				chats.map((chat) => (
-					<div className="border">
-						<p>
-							<strong>name: </strong>
-							{chat.name}
-						</p>
-						<p>
-							<strong>title: </strong>
-							{chat.title}
-						</p>
-						<p>
-							<strong>my thoughts: </strong>
-							{chat.text}
-						</p>
-						<i
-							className="material-icons"
-							onClick={() => {
-								likePost(chat.id);
-							}}
-						>
-							thumb_up
-						</i>
-
-						<i
-							className="material-icons"
-							// onClick={()=>{reportPost(chat.id)}}
-						>
-							report
-						</i>
-						<p>{chat.likes.length} likes</p>
-						<p>date & time:{chat.createdAt}</p>
-					</div>
-				))}
-
-			<ChatForm></ChatForm>
-		</div>
-	);
+      <ChatForm />
+    </div>
+  );
 };
 
 export default Chat;

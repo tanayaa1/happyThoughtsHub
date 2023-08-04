@@ -61,61 +61,18 @@ const updateChat = async (req, res) => {
 
 }
 
-// const putLike = async (req, res) => {
-//   if (!req.user) {
-//     return res.status(401).json({ error: "You must be logged in to like a post." });
-// }
-
-// const chatId = req.body._id;
-// const userId = req.user._id;
-// Chat.findByIdAndUpdate(chatId, {
-//   $push: { likes: req.user._id }
-// }, {
-//   new: true
-// })
-// .exec((err, result) => {
-//   if (err) {
-//       return res.status(422).json({ error: err });
-//   } else {
-//       res.json(result);
-//   }
-// });
-
-// 	// const chat = await Chat.findById(chatId);
-// 	// if (course.course_likes.includes(userId)) {
-// 	// 	console.log("error", "Cannot like more than once!");
-// 	// } else {
-// 	// 	await Chat.findByIdAndUpdate(chatId, {
-// 	// 		$push: {likes: userId},
-// 	// 		$inc: { likes_count: 1 },
-// 	// 	},{
-//   //     new:true
-//   // }).exec((err,result)=>{
-//   //     if(err){
-//   //         return res.status(422).json({error:err})
-//   //     }else{
-//   //         res.json(result)
-//   //     }
-//   // }
-    
-    
-    
-//   //   )
-// };
-// 		console.log("success", "Liked!");
-// 	//}
-
 const putLike = async (req, res) => {
-  const { chatId } = req.params;
-  const { userId } = req.body;
-
+  const chatId= req.params.chatId;
+  console.log(chatId)
+  const  userId  = req.user._id;
+ 
   try {
     const chat = await Chat.findById(chatId);
 
     if (!chat) {
       return res.status(404).json({ error: 'Chat not found' });
     }
-
+ 
     // Check if the user has already liked the chat
     if (chat.likes.includes(userId)) {
       return res.status(400).json({ error: 'You have already liked this chat' });
@@ -131,7 +88,10 @@ const putLike = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }
+  console.log("successs liked")
 };
+
+
 const putReport = async (req, res) => {
   const chatId = "64c4b530284c3c0b22eceb03";
 	

@@ -17,7 +17,7 @@ const chatSchema = new Schema(
 			required: true,
 		},
 		likes: [{ type: ObjectId }],
-		liks_count: { type: Number, default: 0 },
+		likes_count: { type: Number, default: 0 },
 		reports: [{ type: ObjectId }],
 		reports_count: { type: Number, default: 0 },
 	},
