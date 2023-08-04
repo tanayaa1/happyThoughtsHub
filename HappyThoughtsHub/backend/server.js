@@ -6,6 +6,7 @@ const cors = require("cors");
 
 const chatRoutes = require("./routes/chatRoutes");
 const authRoutes = require("./routes/auth");
+const bookingRoutes = require("./routes/bookingRoutes");
 
 // express app
 const app = express();
@@ -21,6 +22,7 @@ app.use((req, res, next) => {
 // routes
 app.use("/api/auth", authRoutes);
 app.use("/api/chats", chatRoutes);
+app.use("/api/bookings", bookingRoutes);
 
 console.log("hi");
 // connect to db

@@ -3,7 +3,7 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 // pages & components
 import Chat from "./pages/chat";
-import NavBar from "./components/Navbar";
+import NavBar from "./components/navbar";
 import { Banner } from "./components/Banner";
 import { Skills } from "./components/Skills";
 import { Projects } from "./components/Projects";
@@ -13,7 +13,8 @@ import Login from "./components/Login";
 import { Register } from "./components/Register";
 
 import { useAuthContext } from "./hooks/useAuthContext";
-
+import DoctorProfiles from "./pages/browseDoctors";
+import BookingsPage from "./pages/bookingPage";
 function App() {
 	const { user } = useAuthContext();
 
@@ -29,6 +30,14 @@ function App() {
 							// element={user ? <Chat /> : <Navigate to="/" />}
 							element={<Chat />}
 						/>
+							<Route
+						path="/doctors"
+						element={!user ? <Register /> : <DoctorProfiles></DoctorProfiles>}
+						/>
+						<Route
+						path="/doctors/book"
+						element={!user ? <Register /> : <BookingsPage></BookingsPage>}
+						/>
 						<Route
 							path="/login"
 							element={!user ? <Login /> : <Navigate to="/" />}
@@ -37,6 +46,10 @@ function App() {
 							path="/register"
 							element={!user ? <Register /> : <Navigate to="/" />}
 						/>
+					
+							
+							
+					
 					</Routes>
 				</div>
 			</BrowserRouter>
