@@ -26,7 +26,7 @@ router.delete('/:id', deleteChat)
 // UPDATE a 
 router.patch('/:id', updateChat)
 
-router.put('/like/:id',putLike)
+router.post('/like/:id',putLike)
 router.put('/report/:id',putReport)
 
 

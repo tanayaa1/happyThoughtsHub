@@ -16,6 +16,7 @@ const requireAuth = async (req, res, next) => {
 		try {
 			const { _id } = jwt.verify(token, "sjfkajdlk");
 			console.log(authorization)
+			console.log("hi in middleware")
 
 			req.user = await User.findOne({ _id }).select("_id");
 			next();

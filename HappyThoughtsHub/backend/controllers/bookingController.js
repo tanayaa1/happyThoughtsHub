@@ -29,13 +29,13 @@ const getBooking = async (req, res) => {
   const createBooking = async (req, res) => {
     const { userId, date, time } = req.body;
   
-    // Access the authenticated user's ID from the middleware
-    const authenticatedUserId = req.user._id;
+   // Access the authenticated user's ID from the middleware
+    // const authenticatedUserId = req.user._id;
   
-    // Check if the provided userId matches the authenticated user's ID
-    if (userId !== authenticatedUserId.toString()) {
-      return res.status(401).json({ error: "Unauthorized" });
-    }
+    // // Check if the provided userId matches the authenticated user's ID
+    // if (userId !== authenticatedUserId.toString()) {
+    //   return res.status(401).json({ error: "Unauthorized" });
+    // }
   
     // Rest of the code for creating the booking
     try {

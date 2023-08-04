@@ -7,7 +7,7 @@ const router = express.Router()
 const requireAuth = require("../middleware/requireAuth");
 
 // GET all 
-router.use(requireAuth);
+//router.use(requireAuth);
 router.get('/', getBookings)
 
 // GET a single 

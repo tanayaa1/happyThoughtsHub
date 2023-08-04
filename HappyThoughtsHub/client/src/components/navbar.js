@@ -102,6 +102,15 @@ const NavBar = () => {
 					<Link to="/register">Signup</Link>
 				</div>
 			)}
+			<Nav.Link>
+			{user && (
+				<div className="flex space-x-4">
+					<Link to="/doctors">Doctors</Link>
+					<Link to="/doctors/book">Bookings</Link>
+				</div>
+			)}
+			</Nav.Link>
+
 			<Nav.Link href="/chat">
 				<button className="vvd">
 					<span>Let’s Connect</span>
