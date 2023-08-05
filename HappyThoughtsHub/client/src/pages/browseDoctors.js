@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import "./browseDoctors.css";
 const DoctorProfiles = () => {
 	// Dummy data array of doctor profiles
 	// const doctorsData = [
@@ -32,38 +33,34 @@ const DoctorProfiles = () => {
 	// Handle the booking process
 	const handleBookAppointment = (doctor) => {
 		setSelectedDoctor(doctor);
+		window.location.href = `/doctors/book/${doctor.userId._id}`;
 	};
 	return (
-		<div>
-			<h1>Doctor Profiles</h1>
+		<div className="demo">
+			{/* <h1>Doctor Profiles</h1> */}
 			{doctorsData.map((doctor, index) => (
 				<div
 					key={index}
 					style={{
-						border: "1px solid #ccc",
 						padding: "10px",
 						marginBottom: "20px",
 					}}
 				>
-					<h2>{doctor.userId.name}</h2>
-					<p>Address: {doctor.address}</p>
-					<p>Speciality: {doctor.speciality}</p>
-					{/* <button
-						className="but1"
-						onClick={() => handleBookAppointment(doctor)}
-					>
-						Book Appointment
-					</button> */}
-					<h6 className="text-muted f-w-400">
-						<Link to={`/doctors/book/${doctor.userId._id}`}>
-							<button
-								className="but1"
-								onClick={() => handleBookAppointment(doctor)}
-							>
-								<span>Book Appointments</span>
+					<article class="cta">
+						<div class="cta__text-column">
+							<h2 className="bl">{doctor.userId.name}</h2>
+							<p className="bl">Address: {doctor.address}</p>
+							<p className="bl">Speciality: {doctor.speciality}</p>
+							<button onClick={() => handleBookAppointment(doctor)}>
+								Book Appointment
 							</button>
-						</Link>
-					</h6>
+							{/* <Link to={`/doctors/book/${doctor.userId._id}`}>
+								<button onClick={() => handleBookAppointment(doctor)}>
+									Book Appointments
+								</button>
+							</Link> */}
+						</div>
+					</article>
 				</div>
 			))}
 		</div>

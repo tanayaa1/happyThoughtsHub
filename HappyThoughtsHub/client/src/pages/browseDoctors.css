@@ -1,0 +1,74 @@
+.demo {
+    margin-top: 60px;
+    display: flex;
+    flex-wrap: wrap;
+    /* Enable wrapping of doctor profiles to the next line */
+    justify-content: space-between;
+    /* Add space between the boxes */
+}
+
+/* Style for the individual doctor profile container */
+.demo>div {
+    padding: 10px;
+    width: calc(50% - 10px);
+    /* Make each box take 50% of the container width minus some spacing */
+    box-sizing: border-box;
+    /* Include padding in the width calculation */
+    margin-bottom: 20px;
+}
+
+img {
+    display: block;
+    width: 100%;
+}
+
+
+.bl {
+    color: black;
+}
+
+@media (min-width: 50em) {
+    h2 {
+        font-size: 1.8rem;
+    }
+}
+
+.cta {
+    --shadowColor: 187 60% 40%;
+    display: flex;
+    flex-wrap: wrap;
+    background: hsl(187 70% 85%);
+    max-width: 50rem;
+    width: 100%;
+    box-shadow: 0.65rem 0.65rem 0 hsl(var(--shadowColor) / 1);
+    border-radius: 0.8rem;
+    overflow: hidden;
+    border: 0.5rem solid;
+}
+
+.cta img {
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    flex: 1 1 300px;
+    outline: 0.5rem solid;
+}
+
+.cta__text-column {
+    padding: min(2rem, 5vw) min(2rem, 5vw) min(2.5rem, 5vw);
+    flex: 1 0 50%;
+}
+
+.cta__text-column>*+* {
+    margin: min(1.5rem, 2.5vw) 0 0 0;
+}
+
+.cta button {
+    display: inline-block;
+    color: black;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    background: hsl(187 75% 64%);
+    border-radius: 0.6rem;
+    font-weight: 700;
+    border: 0.35rem solid;
+}

@@ -9,7 +9,7 @@ function Profile() {
 	const [doctorData, setDoctorData] = useState();
 	//   const [loading, setLoading] = useState(true);
 	const { _id } = useParams();
-	console.log(_id)
+	console.log(_id);
 
 	useEffect(() => {
 		if (user) {
@@ -22,13 +22,13 @@ function Profile() {
 				.then((res) => res.json())
 				.then((jsonRes) => {
 					setDoctorData(jsonRes);
-					console.log(jsonRes)
+					console.log(jsonRes);
 					// setIsLoading(false);
 					// setOpen(!open);
 				});
-			}
-		}, [user]);
-		console.log(doctorData)
+		}
+	}, [user]);
+	console.log(doctorData);
 
 	return (
 		<div className="myprofile">

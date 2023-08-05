@@ -4,6 +4,7 @@ import { useChatsContext } from "../hooks/useChatsContext";
 import ChatForm from "../components/chatForm";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useNavigate, Link } from "react-router-dom";
+import "./chat.css";
 const Chat = () => {
 	const { user } = useAuthContext();
 
@@ -123,56 +124,59 @@ const Chat = () => {
 	}, [chats, dispatch, user]);
 
 	return (
-		<div>
+		<div className="chat111">
 			{chats &&
 				chats.map((chat) => (
 					<div className="border" key={chat._id}>
-						<p>
-							<strong>name: </strong>
-							{chat.name}
-						</p>
+						<div className="chat-container">
+							{chat.photo && (
+								<div className="chat-image">
+									<img src={chat.photo.url} alt="Chat Photo" />
+								</div>
+							)}
 
-						<p>
-							<strong>title: </strong>
-							{chat.title}
-						</p>
+							<div className="chat-content">
+								<p>
+									<strong>Name: </strong>
+									{chat.name}
+								</p>
 
-						{/* Display the image using the chat photo URL */}
-						{chat.photo && (
-							<img
-								src={chat.photo.url}
-								alt="Chat Photo"
-								style={{ maxWidth: "100px" }}
-							/>
-						)}
-						<p>
-							<strong>my thoughts: </strong>
-							{chat.text}
-						</p>
+								<p>
+									<strong>Title: </strong>
+									{chat.title}
+								</p>
 
-						<i
-							className="material-icons"
-							onClick={() => likeChat(chat._id, chat.likes_count)}
-							style={{ cursor: "pointer" }}
-						>
-							thumb_up
-						</i>
+								<p>
+									<strong>My thoughts: </strong>
+									{chat.text}
+								</p>
 
-						<p>{chat.likes.length} likes</p>
-						{/* <button onClick={() => handleClick(chat, chat.likes_count)} size="small">
-											Like 
-											{" "}
-											{chat.likes_count}
-										</button> */}
-						<i
-							className="material-icons"
-							onClick={() => reportChat(chat._id, chat.reports_count)}
-							style={{ cursor: "pointer" }}
-						>
-							report
-						</i>
-						<p>{chat.reports.length} reports</p>
-						<p>date & time:{chat.createdAt}</p>
+								<div className="actions-container">
+									<div>
+										<i
+											className="material-icons"
+											onClick={() => likeChat(chat._id, chat.likes_count)}
+											style={{ cursor: "pointer" }}
+										>
+											thumb_up
+										</i>
+										<p>{chat.likes.length} Likes</p>
+									</div>
+									<div>
+										<i
+											className="material-icons"
+											onClick={() => reportChat(chat._id, chat.reports_count)}
+											style={{ cursor: "pointer" }}
+										>
+											report
+										</i>
+										<p>{chat.reports.length} Reports</p>
+									</div>
+								</div>
+
+								<p>Date & Time: {chat.createdAt}</p>
+							</div>
+						</div>
 					</div>
 				))}
 

@@ -48,14 +48,15 @@ const NavBar = () => {
 				</Navbar.Toggle>
 				<Navbar.Collapse id="basic-navbar-nav">
 					<Nav className="ms-auto">
-						<Nav.Link
+						{/* <Nav.Link
+							// href="/"
 							className={
 								activeLink === "home" ? "active navbar-link" : "navbar-link"
 							}
 							onClick={() => onUpdateActiveLink("home")}
 						>
-							<Link to={"/"}>Home</Link>
-						</Nav.Link>
+							Home
+						</Nav.Link> */}
 						<Nav.Link
 							href="#skills"
 							className={
@@ -75,7 +76,7 @@ const NavBar = () => {
 							Chat
 						</Nav.Link>
 					</Nav>
-					<span className="navbar-text">
+					{/* <span className="navbar-text">
 						<div className="social-icon">
 							<a href="#">
 								<img src={navIcon1} alt="" />
@@ -87,13 +88,15 @@ const NavBar = () => {
 								<img src={navIcon3} alt="" />
 							</a>
 						</div>
-					</span>
+					</span> */}
 				</Navbar.Collapse>
 			</Container>
 			{user && (
 				<div>
 					<span>{user.name}</span>
-					<button onClick={handleClick}>Log out</button>
+					<button onClick={handleClick} className="logout">
+						Logout
+					</button>
 				</div>
 			)}
 			{!user && (
@@ -111,18 +114,29 @@ const NavBar = () => {
 					</Dropdown>
 				</div>
 			)}
-			<Nav.Link>
-				{user && (
-					<div className="flex space-x-4">
-						<Link to="/doctors">Doctors</Link>
-						<Link to="/doctors/book">Bookings</Link>
+			{user && (
+				<Nav>
+					<div className="mx-2">
+						<Dropdown as={Nav.Item}>
+							<Dropdown.Toggle as={Nav.Link}>
+								<button className="logout">View</button>
+							</Dropdown.Toggle>
+							<Dropdown.Menu>
+								<Dropdown.Item as={Link} to="/doctors">
+									Doctors
+								</Dropdown.Item>
+								<Dropdown.Item as={Link} to="/doctors/book">
+									Bookings
+								</Dropdown.Item>
+							</Dropdown.Menu>
+						</Dropdown>
 					</div>
-				)}
-			</Nav.Link>
+				</Nav>
+			)}
 
 			<Nav.Link href="/chat">
 				<button className="vvd">
-					<span>Let’s Connect</span>
+					<span>Lets Connect</span>
 				</button>
 			</Nav.Link>
 		</Navbar>

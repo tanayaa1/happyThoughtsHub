@@ -1,0 +1,79 @@
+.chat111 {
+    margin-top: 60px;
+}
+
+.chat-container {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.chat-image {
+    width: 150px;
+    height: 150px;
+    margin-right: 20px;
+    border-radius: 8px;
+}
+
+.chat-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.border {
+    display: flex;
+    width: 800px;
+    height: 320px;
+    margin: 5px;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    border-color: rgb(161, 17, 161);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-image: url("../assets/img/bubbly.jpg");
+    background-size: 50rem;
+}
+
+.boxchat {
+    background-image: url("../assets/img/bubbly.jpg");
+    background-size: 60rem;
+    margin-top: 60px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* Style the chat box content */
+.border p {
+    margin: 4px 0;
+}
+
+/* Style the name */
+.border strong {
+    color: white;
+}
+
+/* Style the like and report icons */
+.material-icons {
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+/* Additional styles for the like and report icons */
+.material-icons:hover {
+    color: #007bff;
+}
+
+/* Style the like count */
+p.likes {
+    font-weight: bold;
+}
+
+/* Style the date & time */
+p.date {
+    color: #777;
+}
+.actions-container {
+    display: flex;
+    justify-content: space-between;
+}

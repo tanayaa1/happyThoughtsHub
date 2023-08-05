@@ -15,11 +15,12 @@ import { RegisterDoctor } from "./components/RegisterDoctor";
 
 import { useAuthContext } from "./hooks/useAuthContext";
 import DoctorProfiles from "./pages/browseDoctors";
-import BookingsPage from "./pages/bookingPage";
 import BrowseBookings from "./pages/browseBookings";
+import BookingsPage from "./pages/bookingPage";
 import Profile from "./components/Profile";
 import EditDoctor from "./components/EditDoctor";
 import AddDoctor from "./components/AddDoctor";
+import About from "./components/About";
 function App() {
 	const { user } = useAuthContext();
 
@@ -30,9 +31,13 @@ function App() {
 				<div className="pages">
 					<Routes>
 						<Route path="/" element={<Banner />} />
+						<Route path="/about" element={<About />} />
 						<Route path="/profile/:_id" element={<Profile />} />
 						<Route path="/doctor/edit/:_id" element={<EditDoctor />} />
-						<Route path="/doctor/add/:email" element={<AddDoctor />} />
+						<Route
+							path="/doctor/add/:email"
+							element={!user ? <Register /> : <AddDoctor />}
+						/>
 						<Route
 							path="/chat"
 							// element={user ? <Chat /> : <Navigate to="/" />}
@@ -48,7 +53,7 @@ function App() {
 						/>
 						<Route
 							path="/appointments/:_id"
-							element={!user ? <Register /> : <BrowseBookings/>}
+							element={!user ? <Register /> : <BrowseBookings />}
 						/>
 						<Route
 							path="/login"

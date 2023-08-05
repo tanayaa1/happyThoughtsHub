@@ -33,7 +33,7 @@ const BookingsPage = () => {
 			.catch((error) => console.error("Error fetching doctors:", error));
 	}, []);
 
-  console.log(selectedDoctor)
+	console.log(selectedDoctor);
 
 	const fetchBookings = async (date) => {
 		// console.log(user.token);
@@ -73,18 +73,21 @@ const BookingsPage = () => {
 	const handleConfirmAppointment = async () => {
 		if (selectedDate && selectedTime) {
 			try {
-				const response = await fetch(`http://localhost:4000/api/bookings/${selectedDoctor.userId._id}`, {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						// userId: user?.id,
-						userId: user._id,
-						date: selectedDate,
-						time: selectedTime,
-					}),
-				});
+				const response = await fetch(
+					`http://localhost:4000/api/bookings/${selectedDoctor.userId._id}`,
+					{
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({
+							// userId: user?.id,
+							userId: user._id,
+							date: selectedDate,
+							time: selectedTime,
+						}),
+					}
+				);
 
 				if (response.ok) {
 					setAppointmentConfirmed(true);
