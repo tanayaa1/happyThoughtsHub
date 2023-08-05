@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 // { useAuthContext } from "../hooks/useAuthContext";
-
+import "./bookingPage.css";
 const BookingsPage = () => {
 	const [bookings, setBookings] = useState([]);
 	const [selectedDate, setSelectedDate] = useState(null);
@@ -119,21 +119,22 @@ const BookingsPage = () => {
 	}
 
 	return (
-		<div>
+		<div className="demo1">
 			<h1>Booking Details</h1>
 			{selectedDoctor && (
 				<div
-					style={{
-						border: "1px solid #ccc",
-						padding: "10px",
-						marginBottom: "20px",
-					}}
+				style={{ padding: '10px', marginBottom: '20px' }}
 				>
-					<h2>{selectedDoctor.userId.name}</h2>
-					<p>Address: {selectedDoctor.address}</p>
-					<p>Speciality: {selectedDoctor.speciality}</p>
+
+<article class="cta1">
+<div class="cta__text-column">
+
+					<h2 className='bl1'>{selectedDoctor.userId.name}</h2>
+					<p className='bl1'>Address: {selectedDoctor.address}</p>
+					<p className='bl1'>Speciality: {selectedDoctor.speciality}</p>
 					<div>
-						<h3>Select Date:</h3>
+						<h3 className='bl1'>Select Date:</h3>
+						<div>
 						<select
 							onChange={(e) => handleDateSelect(e.target.value)}
 							value={selectedDate}
@@ -147,6 +148,8 @@ const BookingsPage = () => {
 								</option>
 							))}
 						</select>
+						</div>
+						</div>
 					</div>
 
 					{selectedDate && (
@@ -167,6 +170,7 @@ const BookingsPage = () => {
 							</select>
 						</div>
 					)}
+					</article>
 				</div>
 			)}
 			<button onClick={handleConfirmAppointment}>Confirm Appointment</button>
