@@ -6,27 +6,12 @@ import { useAuthContext } from "../hooks/useAuthContext";
 function Profile() {
 	const { user } = useAuthContext();
 
-	const [doctorData, setDoctorData] = useState({});
+	const [doctorData, setDoctorData] = useState();
 	//   const [loading, setLoading] = useState(true);
 	const { _id } = useParams();
+	console.log(_id)
 
 	useEffect(() => {
-		// const fetchDoctorData = async () => {
-		// 	const response = await fetch(`http://localhost:4000/api/doctor/${_id}`, {
-		// 		headers: {
-		// 			"Content-Type": "application/json",
-		// 			Authorization: `Bearer ${user.token}`,
-		// 		},
-		// 	});
-		// 	if (!response.ok) {
-		// 		throw new Error("Failed to fetch doctor data");
-		// 	}
-		// 	const data = await response.json();
-		// 	setDoctorData(data);
-		// 	console.log(data);
-		// 	// setLoading(false);
-		// };
-		// fetchDoctorData();
 		if (user) {
 			fetch(`http://localhost:4000/api/doctor/${_id}`, {
 				headers: {
@@ -37,12 +22,13 @@ function Profile() {
 				.then((res) => res.json())
 				.then((jsonRes) => {
 					setDoctorData(jsonRes);
+					console.log(jsonRes)
 					// setIsLoading(false);
 					// setOpen(!open);
 				});
 			}
 		}, [user]);
-		console.log(doctorData[0])
+		console.log(doctorData)
 
 	return (
 		<div className="myprofile">
@@ -90,7 +76,7 @@ function Profile() {
 												<div className="col-sm-6">
 													<p className="m-b-10 f-w-600">Speciality</p>
 													<h6 className="text-muted f-w-400">
-														{doctorData[0] && doctorData[0].speciality}
+														{doctorData && doctorData.speciality}
 													</h6>
 												</div>
 											</div>
@@ -111,7 +97,7 @@ function Profile() {
 												<div className="col-sm-6">
 													<p className="m-b-10 f-w-600">Appointments</p>
 													<h6 className="text-muted f-w-400">
-														<Link to="/chat">
+														<Link to={`/appointments/${_id}`}>
 															<button className="but1">
 																<span>Appointments</span>
 															</button>

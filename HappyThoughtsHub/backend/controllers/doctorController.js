@@ -16,7 +16,10 @@ const getDoctors = async (req, res) => {
 
 const getDoctor = async (req, res) => {
 	try {
-		const doctor = await Doctor.find({ userId: req.params.id });
+		const doctor = await Doctor.findOne({ userId: req.params.id }).populate(
+			"userId",
+			"name email"
+		);
 		if (!doctor) {
 			return res.status(404).json({ message: "Doctor not found" });
 		}
@@ -41,32 +44,6 @@ const createDoctor = async (req, res) => {
 			.json({ message: "Error creating doctor", error: error.message });
 	}
 };
-
-// const createDoctor = async (req, res) => {
-// 	const { email, address, speciality } = req.body;
-
-// 	try {
-// 		const user = await User.findOne({ email });
-// 		if (!user) {
-// 			return res.status(404).json({ error: "User not found" });
-// 		}
-// 		const existingDoctor = await Doctor.findOne({ userId: user._id });
-// 		if (existingDoctor) {
-// 			return res.status(409).json({ error: "Doctor already exists" });
-// 		}
-// 		const newDoctor = new Doctor({
-// 			userId: user._id,
-// 			address,
-// 			speciality,
-// 		});
-// 		await newDoctor.save();
-// 		res.status(201).json(newDoctor);
-// 	} catch (error) {
-// 		res
-// 			.status(500)
-// 			.json({ message: "Error creating doctor", error: error.message });
-// 	}
-// };
 
 const editDoctor = async (req, res) => {
 	try {

@@ -49,13 +49,12 @@ const NavBar = () => {
 				<Navbar.Collapse id="basic-navbar-nav">
 					<Nav className="ms-auto">
 						<Nav.Link
-							href="/"
 							className={
 								activeLink === "home" ? "active navbar-link" : "navbar-link"
 							}
 							onClick={() => onUpdateActiveLink("home")}
 						>
-							Home
+							<Link to={"/"}>Home</Link>
 						</Nav.Link>
 						<Nav.Link
 							href="#skills"
@@ -113,12 +112,12 @@ const NavBar = () => {
 				</div>
 			)}
 			<Nav.Link>
-			{user && (
-				<div className="flex space-x-4">
-					<Link to="/doctors">Doctors</Link>
-					<Link to="/doctors/book">Bookings</Link>
-				</div>
-			)}
+				{user && (
+					<div className="flex space-x-4">
+						<Link to="/doctors">Doctors</Link>
+						<Link to="/doctors/book">Bookings</Link>
+					</div>
+				)}
 			</Nav.Link>
 
 			<Nav.Link href="/chat">

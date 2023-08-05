@@ -16,6 +16,7 @@ import { RegisterDoctor } from "./components/RegisterDoctor";
 import { useAuthContext } from "./hooks/useAuthContext";
 import DoctorProfiles from "./pages/browseDoctors";
 import BookingsPage from "./pages/bookingPage";
+import BrowseBookings from "./pages/browseBookings";
 import Profile from "./components/Profile";
 import EditDoctor from "./components/EditDoctor";
 import AddDoctor from "./components/AddDoctor";
@@ -42,8 +43,12 @@ function App() {
 							element={!user ? <Register /> : <DoctorProfiles></DoctorProfiles>}
 						/>
 						<Route
-							path="/doctors/book"
+							path="/doctors/book/:_id"
 							element={!user ? <Register /> : <BookingsPage></BookingsPage>}
+						/>
+						<Route
+							path="/appointments/:_id"
+							element={!user ? <Register /> : <BrowseBookings/>}
 						/>
 						<Route
 							path="/login"

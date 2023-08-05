@@ -18,6 +18,6 @@ router.get("/single/:id", getBooking);
 router.get("/doctor/:id", getBookingsForDoctor);
 
 // POST a new
-router.post("/", createBooking);
+router.post("/:id", createBooking);
 
 module.exports = router;
