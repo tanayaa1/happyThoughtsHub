@@ -27,7 +27,7 @@ router.delete('/:id', deleteChat)
 router.patch('/:id', updateChat)
 
 router.put('/like/:chatId',putLike)
-router.put('/report/:id',putReport)
+router.put('/report/:chatId',putReport)
 
 
 module.exports = router

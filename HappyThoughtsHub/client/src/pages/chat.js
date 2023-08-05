@@ -6,9 +6,9 @@ import ChatForm from "../components/chatForm";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useNavigate, Link } from "react-router-dom";
 const Chat = () => {
-	const navigate = useNavigate();
+	
   const { user } = useAuthContext();
-  const [likes, setLikes] = useState()
+  
 
   const { chats, dispatch, state } = useChatsContext(); // Use chats and dispatch from the context directly
   // Remove the local data and setData, as we will now use chats and dispatch
@@ -30,29 +30,7 @@ const Chat = () => {
       fetchChats();
     }
   }, [user]);
-  // const handleClick = (chatId, likes_count) => {
-	// if (!user) {
-	// 	navigate("/login");
-	// 	return;
-	// }
-	// setLikes(likes_count + 1);  
-	// //console.log(chatId + " inside the handle click ");
-	// fetch(`http://localhost:4000/chats/like/${chatId}`, {
-	//   method: "PUT",
-	//   body: JSON.stringify({ chatId }), // Send only the required data in the request body
-	//   headers: {
-	// 	"Content-Type": "application/json",
-	// 	Authorization: `Bearer ${user.token}`,
-	//   },
-	// })
-	// .then(() => {
-	//   // navigate("/wishlist");
-	//   console.log(chatId + " liked");
-	// })
-	// .catch((error) => {
-	//   console.error("Error updating like:", error);
-	// });
-  // };
+  
   const [likesCount, setLikesCount] = useState(0);
 
   const likeChat = (chatId,likes_count) => {
@@ -84,7 +62,67 @@ const Chat = () => {
     setLikesCount(currentLikesCount);
   };
 
+  const [reportsCount, setReportsCount] = useState(0);
 
+  const reportChat = (chatId,reports_count) => {
+    // Send a PUT request to the backend to like the chat
+    fetch(`http://localhost:4000/api/chats/report/${chatId}`, {
+      method: 'PUT',
+      // headers: {
+      //   'Content-Type': 'application/json',
+      // },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        // On successful response, update the frontend to reflect the like
+        updateReportsCount(chatId, "increment");
+      })
+    
+      .catch((error) => {
+        console.error('Error:', error);
+        // Handle error scenarios here, e.g., show an error message to the user
+      });
+  };
+  const updateReportsCount = (chatId, action) => {
+    // Here, you can fetch the updated chat details from the backend
+    // For simplicity, I'll assume you already have the chat data available
+    // Replace this with actual code to update your frontend with the new likes count
+    // const currentReportsCount = 42; // Replace with the actual current likes count
+    // setLikesCount(currentReportsCount);
+    dispatch({ type: "UPDATE_CHAT_REPORTS_COUNT", payload: { chatId, action } });
+  };
+
+
+  useEffect(() => {
+    if (chats && chats.some((chat) => chat.reports_count >= 3)) {
+      // Check if chats exist and if any chat has three or more reports
+      const chatToDelete = chats.find((chat) => chat.reports_count >= 3);
+  
+      if (chatToDelete) {
+        // Send a DELETE request to the backend to delete the chat
+        fetch(`http://localhost:4000/api/chats/${chatToDelete._id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            // Remove the chat from the chats state
+            dispatch({ type: "DELETE_CHAT", payload: chatToDelete._id });
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+    }
+  }, [chats, dispatch, user]);
+  
   return (
     <div>
       {chats &&
@@ -116,8 +154,11 @@ const Chat = () => {
 											{" "}
 											{chat.likes_count}
 										</button> */}
-            <i className="material-icons">{/* Other icons */}</i>
-         
+            <i className="material-icons"
+              
+                onClick={() => reportChat(chat._id,chat.reports_count)}
+                style={{ cursor: "pointer" }}>report</i>
+          <p>{chat.reports.length} reports</p>
             <p>date & time:{chat.createdAt}</p>
           </div>
         ))}
