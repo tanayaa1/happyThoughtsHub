@@ -20,6 +20,8 @@ import Profile from "./components/Profile";
 import EditDoctor from "./components/EditDoctor";
 import AddDoctor from "./components/AddDoctor";
 import About from "./components/About"
+
+import Analysis from "./pages/analysis";
 function App() {
 	const { user } = useAuthContext();
 
@@ -38,6 +40,11 @@ function App() {
 							path="/chat"
 							// element={user ? <Chat /> : <Navigate to="/" />}
 							element={<Chat />}
+						/>
+						<Route
+							path="/analysis"
+							// element={user ? <Chat /> : <Navigate to="/" />}
+							element={<Analysis />}
 						/>
 						<Route
 							path="/doctors"
