@@ -5,6 +5,10 @@ const validator = require("validator");
 
 const UserSchema = new Schema(
 	{
+		_id: {
+			type: mongoose.Types.ObjectId,
+			default: mongoose.Types.ObjectId,
+		},
 		name: { type: String, required: true },
 		email: {
 			type: String,

@@ -8,7 +8,7 @@ const chatRoutes = require("./routes/chatRoutes");
 const authRoutes = require("./routes/auth");
 const bookingRoutes = require("./routes/bookingRoutes");
 const doctorRoutes = require("./routes/doctors");
-
+const fileUpload = require("express-fileupload");
 // express app
 const app = express();
 
@@ -25,6 +25,11 @@ app.use("/api/auth", authRoutes);
 app.use("/api/chats", chatRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/doctor", doctorRoutes);
+app.use(
+	fileUpload({
+		useTempFiles: true,
+	})
+);
 
 console.log("hi");
 // connect to db

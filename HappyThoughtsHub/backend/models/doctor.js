@@ -10,11 +10,11 @@ const DoctorSchema = new Schema(
 		},
 		address: {
 			type: String,
-			required: true,
+			// required: true,
 		},
 		speciality: {
 			type: String,
-			required: true,
+			// required: true,
 		},
 	},
 	{

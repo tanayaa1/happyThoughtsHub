@@ -17,6 +17,8 @@ import { useAuthContext } from "./hooks/useAuthContext";
 import DoctorProfiles from "./pages/browseDoctors";
 import BookingsPage from "./pages/bookingPage";
 import Profile from "./components/Profile";
+import EditDoctor from "./components/EditDoctor";
+import AddDoctor from "./components/AddDoctor";
 function App() {
 	const { user } = useAuthContext();
 
@@ -27,7 +29,9 @@ function App() {
 				<div className="pages">
 					<Routes>
 						<Route path="/" element={<Banner />} />
-						<Route path="/profile" element={<Profile />} />
+						<Route path="/profile/:_id" element={<Profile />} />
+						<Route path="/doctor/edit/:_id" element={<EditDoctor />} />
+						<Route path="/doctor/add/:email" element={<AddDoctor />} />
 						<Route
 							path="/chat"
 							// element={user ? <Chat /> : <Navigate to="/" />}
@@ -38,7 +42,7 @@ function App() {
 							element={!user ? <Register /> : <DoctorProfiles></DoctorProfiles>}
 						/>
 						<Route
-							path=	"/doctors/book"
+							path="/doctors/book"
 							element={!user ? <Register /> : <BookingsPage></BookingsPage>}
 						/>
 						<Route

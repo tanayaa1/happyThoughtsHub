@@ -11,7 +11,7 @@ const router = express.Router()
 const requireAuth = require("../middleware/requireAuth");
 
 // GET all 
-router.use(requireAuth);
+//router.use(requireAuth);
 router.get('/', getChats)
 
 // GET a single 
@@ -26,8 +26,8 @@ router.delete('/:id', deleteChat)
 // UPDATE a 
 router.patch('/:id', updateChat)
 
-router.post('/like/:id',putLike)
-router.put('/report/:id',putReport)
+router.put('/like/:chatId',putLike)
+router.put('/report/:chatId',putReport)
 
 
 module.exports = router

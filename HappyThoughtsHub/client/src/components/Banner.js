@@ -63,7 +63,7 @@ export const Banner = () => {
 		<section className="banner" id="home">
 			{user && (
 				<h1>
-					Welcome back, <Link to="/profile">{user.name}</Link>!
+					Welcome back, <Link to={`/profile/${user._id}`}>{user.name}</Link>!
 				</h1>
 			)}
 			<Container>

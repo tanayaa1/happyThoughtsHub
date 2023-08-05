@@ -1,19 +1,17 @@
-import { useEffect, useState } from "react";
-// components
+import React, { useEffect, useState } from "react";
 import { useChatsContext } from "../hooks/useChatsContext";
-import ChatDetails from "../components/ChatDetails";
+//import ChatDetails from "../components/ChatDetails";
 import ChatForm from "../components/chatForm";
 import { useAuthContext } from "../hooks/useAuthContext";
-
+import { useNavigate, Link } from "react-router-dom";
 const Chat = () => {
 	const { user } = useAuthContext();
-	const { chats, dispatch, state } = useChatsContext();
-	const [data, setData] = useState([]);
+
+	const { chats, dispatch, state } = useChatsContext(); // Use chats and dispatch from the context directly
+	// Remove the local data and setData, as we will now use chats and dispatch
 
 	useEffect(() => {
 		if (user) {
-			console.log(user.token);
-			console.log("Hello");
 			const fetchChats = async () => {
 				const response = await fetch("http://localhost:4000/api/chats", {
 					headers: {
@@ -23,89 +21,162 @@ const Chat = () => {
 				const json = await response.json();
 
 				if (response.ok) {
-					// console.log(json);
-					dispatch({ type: "SET_CHATS", payload: json });
+					dispatch({ type: "SET_CHATS", payload: json }); // Update the chats state using the context dispatch
 				}
 			};
 			fetchChats();
 		}
 	}, [user]);
 
-	const likePost = (id) => {
-		fetch("/like", {
-			method: "put",
-			headers: {
-				"Content-Type": "application/json",
-				//  "Authorization":"Bearer "+localStorage.getItem("jwt")
-			},
-			body: JSON.stringify({
-				chatId: id,
-			}),
+	const [likesCount, setLikesCount] = useState(0);
+
+	const likeChat = (chatId, likes_count) => {
+		// Send a PUT request to the backend to like the chat
+		fetch(`http://localhost:4000/api/chats/like/${chatId}`, {
+			method: "PUT",
+			// headers: {
+			//   'Content-Type': 'application/json',
+			// },
 		})
-			.then((res) => res.json())
-			.then((result) => {
-				console.log(result);
-				const newData = data.map((item) => {
-					if (item._id == result._id) {
-						return result;
-					} else {
-						return item;
-					}
-				});
-				setData(newData);
+			.then((response) => {
+				if (!response.ok) {
+					throw new Error("Network response was not ok");
+				}
+				// On successful response, update the frontend to reflect the like
+				updateLikesCount();
 			})
-			.catch((err) => {
-				console.log(err);
+
+			.catch((error) => {
+				console.error("Error:", error);
+				// Handle error scenarios here, e.g., show an error message to the user
 			});
 	};
+	const updateLikesCount = () => {
+		// Here, you can fetch the updated chat details from the backend
+		// For simplicity, I'll assume you already have the chat data available
+		// Replace this with actual code to update your frontend with the new likes count
+		const currentLikesCount = 42; // Replace with the actual current likes count
+		setLikesCount(currentLikesCount);
+	};
+
+	const [reportsCount, setReportsCount] = useState(0);
+
+	const reportChat = (chatId, reports_count) => {
+		// Send a PUT request to the backend to like the chat
+		fetch(`http://localhost:4000/api/chats/report/${chatId}`, {
+			method: "PUT",
+			// headers: {
+			//   'Content-Type': 'application/json',
+			// },
+		})
+			.then((response) => {
+				if (!response.ok) {
+					throw new Error("Network response was not ok");
+				}
+				// On successful response, update the frontend to reflect the like
+				updateReportsCount(chatId, "increment");
+			})
+
+			.catch((error) => {
+				console.error("Error:", error);
+				// Handle error scenarios here, e.g., show an error message to the user
+			});
+	};
+	const updateReportsCount = (chatId, action) => {
+		// Here, you can fetch the updated chat details from the backend
+		// For simplicity, I'll assume you already have the chat data available
+		// Replace this with actual code to update your frontend with the new likes count
+		// const currentReportsCount = 42; // Replace with the actual current likes count
+		// setLikesCount(currentReportsCount);
+		dispatch({
+			type: "UPDATE_CHAT_REPORTS_COUNT",
+			payload: { chatId, action },
+		});
+	};
+
+	useEffect(() => {
+		if (chats && chats.some((chat) => chat.reports_count >= 3)) {
+			// Check if chats exist and if any chat has three or more reports
+			const chatToDelete = chats.find((chat) => chat.reports_count >= 3);
+
+			if (chatToDelete) {
+				// Send a DELETE request to the backend to delete the chat
+				fetch(`http://localhost:4000/api/chats/${chatToDelete._id}`, {
+					method: "DELETE",
+					headers: {
+						Authorization: `Bearer ${user.token}`,
+						"Content-Type": "application/json",
+					},
+				})
+					.then((response) => {
+						if (!response.ok) {
+							throw new Error("Network response was not ok");
+						}
+						// Remove the chat from the chats state
+						dispatch({ type: "DELETE_CHAT", payload: chatToDelete._id });
+					})
+					.catch((error) => {
+						console.error("Error:", error);
+					});
+			}
+		}
+	}, [chats, dispatch, user]);
 
 	return (
-		//  <div className="home">
-		// 	<div className="workouts">
-		// 	// 	{chats &&
-		// 	// 		chats.map((chat) => <ChatDetails chat={chat} key={chat._id} />)}
-		//  </div>
-
-		// 	<ChatForm />
-		// </div>
-
 		<div>
 			{chats &&
 				chats.map((chat) => (
-					<div className="border">
+					<div className="border" key={chat._id}>
 						<p>
 							<strong>name: </strong>
 							{chat.name}
 						</p>
+
 						<p>
 							<strong>title: </strong>
 							{chat.title}
 						</p>
+
+						{/* Display the image using the chat photo URL */}
+						{chat.photo && (
+							<img
+								src={chat.photo.url}
+								alt="Chat Photo"
+								style={{ maxWidth: "100px" }}
+							/>
+						)}
 						<p>
 							<strong>my thoughts: </strong>
 							{chat.text}
 						</p>
+
 						<i
 							className="material-icons"
-							onClick={() => {
-								likePost(chat.id);
-							}}
+							onClick={() => likeChat(chat._id, chat.likes_count)}
+							style={{ cursor: "pointer" }}
 						>
 							thumb_up
 						</i>
 
+						<p>{chat.likes.length} likes</p>
+						{/* <button onClick={() => handleClick(chat, chat.likes_count)} size="small">
+											Like 
+											{" "}
+											{chat.likes_count}
+										</button> */}
 						<i
 							className="material-icons"
-							// onClick={()=>{reportPost(chat.id)}}
+							onClick={() => reportChat(chat._id, chat.reports_count)}
+							style={{ cursor: "pointer" }}
 						>
 							report
 						</i>
-						<p>{chat.likes.length} likes</p>
+						<p>{chat.reports.length} reports</p>
 						<p>date & time:{chat.createdAt}</p>
 					</div>
 				))}
 
-			<ChatForm></ChatForm>
+			<ChatForm />
 		</div>
 	);
 };

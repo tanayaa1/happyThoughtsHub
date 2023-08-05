@@ -17,11 +17,31 @@ const ChatForm = () => {
 	const [text, setText] = useState("");
 
 	const [error, setError] = useState(null);
+	const [photo, setPhoto] = useState(null);
 
+	const handleImageChange = (e) => {
+	//   const file = e.target.files[0];
+	//   setPhoto(file);
+
+
+	  const file = e.target.files[0];
+	  if (file) {
+		const reader = new FileReader();
+		reader.readAsDataURL(file);
+		reader.onloadend = () => {
+		  setPhoto(reader.result);
+		};
+	  }
+
+	};
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-
-		const chat = { name: user.name, title, text };
+		const formData = new FormData();
+		formData.append("name", user.name);
+		formData.append("title", title);
+		formData.append("text", text);
+		formData.append("photo", photo);
+		const chat = { name: user.name, title, text, photo };
 
 		const response = await fetch("http://localhost:4000/api/chats", {
 			method: "POST",
@@ -40,6 +60,7 @@ const ChatForm = () => {
 			setError(null);
 			setTitle("");
 			setText("");
+			setPhoto(null);
 
 			console.log("new chat added:", json);
 
@@ -57,6 +78,9 @@ const ChatForm = () => {
 				onChange={(e) => setTitle(e.target.value)}
 				value={title}
 			/>
+			<label>Image:</label>
+      <input type="file" accept="image/*" onChange={handleImageChange} />
+ 
 			<label> Text:</label>
 			<input
 				type="text"

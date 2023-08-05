@@ -1,21 +1,23 @@
-const express = require('express')
+const express = require("express");
 const {
-  getBookings,getBooking,createBooking
-} = require('../controllers/bookingController')
-const router = express.Router()
+	getBookings,
+	getBooking,
+	createBooking,
+	getBookingsForDoctor,
+} = require("../controllers/bookingController");
+const router = express.Router();
 
 const requireAuth = require("../middleware/requireAuth");
 
-// GET all 
+// GET all
 //router.use(requireAuth);
-router.get('/', getBookings)
+router.get("/", getBookings);
 
-// GET a single 
-router.get('/:id', getBooking)
+// GET a single
+router.get("/single/:id", getBooking);
+router.get("/doctor/:id", getBookingsForDoctor);
 
-// POST a new 
-router.post('/', createBooking)
+// POST a new
+router.post("/", createBooking);
 
-
-
-module.exports = router
+module.exports = router;

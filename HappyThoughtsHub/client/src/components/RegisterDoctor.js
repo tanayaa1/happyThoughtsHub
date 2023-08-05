@@ -18,6 +18,7 @@ export const RegisterDoctor = (props) => {
 		event.preventDefault();
 		console.log(name, email, pass, "doctor");
 		await signup(name, email, pass, "doctor");
+		window.location.href = `/doctor/add/${email}`;
 	};
 
 	return (

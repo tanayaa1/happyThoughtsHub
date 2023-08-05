@@ -1,6 +1,15 @@
-const Chat = require("../models/chatModel");
-const User = require("../models/user");
-const mongoose = require("mongoose");
+const Chat = require('../models/chatModel')
+const User = require('../models/user')
+const mongoose = require('mongoose')
+const cloudinary =require('cloudinary').v2
+
+
+cloudinary.config({ 
+  cloud_name: 'dsz2o8e08', 
+  api_key: '328937596942251', 
+  api_secret: 'ZpLngLf-GAvAhWVIYNd7qQHqhso',
+  secure: true
+});
 
 // get all
 const getChats = async (req, res) => {
@@ -27,16 +36,63 @@ const getChat = async (req, res) => {
 };
 
 // create a newt
-const createChat = async (req, res) => {
-	const { name, title, text } = req.body;
+// const createChat = async (req, res) => {
+//   const {name, title, text,photo} = req.body
+  
 
-	// add to the database
-	try {
-		const chat = await Chat.create({ name, title, text });
-		res.status(200).json(chat);
-	} catch (error) {
-		res.status(400).json({ error: error.message });
-	}
+//   const photoResult = await cloudinary.uploader.upload(photo, {
+//     folder: "Photo",
+//   });
+
+ 
+  
+//   // add to the database
+//   try {
+//     const chat = await Chat.create({name, title, text,
+//       photo: {
+//         public_id: photoResult.public_id,
+//         url: photoResult.secure_url,
+//       },
+//     })
+//     res.status(200).json(chat)
+//   } catch (error) {
+//     res.status(400).json({ error: error.message })
+//   }
+// }
+
+ // Make sure you import the correct cloudinary module and configure it with your credentials
+
+const createChat = async (req, res) => {
+  const { name, title, text, photo} = req.body;
+  
+
+  // Validate request body
+  if (!name || !title || !text ) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  try {
+    // Upload the photo to Cloudinary
+    const photoResult = await cloudinary.uploader.upload(photo, {
+      folder: "Photo",
+    });
+
+    // Create a new chat with the photo information
+    const chat = await Chat.create({
+      name,
+      title,
+      text,
+      photo: {
+        public_id: photoResult.public_id,
+        url: photoResult.secure_url,
+      },
+    });
+
+    res.status(200).json(chat);
+  } catch (error) {
+    console.error("Error uploading photo:", error);
+    res.status(400).json({ error: "Failed to upload photo" });
+  }
 };
 
 // delete a
@@ -56,106 +112,71 @@ const deleteChat = async (req, res) => {
 	res.status(200).json(chat);
 };
 
-// update a
-const updateChat = async (req, res) => {};
+// update a 
+const updateChat = async (req, res) => {
 
-// const putLike = async (req, res) => {
-//   if (!req.user) {
-//     return res.status(401).json({ error: "You must be logged in to like a post." });
-// }
-
-// const chatId = req.body._id;
-// const userId = req.user._id;
-// Chat.findByIdAndUpdate(chatId, {
-//   $push: { likes: req.user._id }
-// }, {
-//   new: true
-// })
-// .exec((err, result) => {
-//   if (err) {
-//       return res.status(422).json({ error: err });
-//   } else {
-//       res.json(result);
-//   }
-// });
-
-// 	// const chat = await Chat.findById(chatId);
-// 	// if (course.course_likes.includes(userId)) {
-// 	// 	console.log("error", "Cannot like more than once!");
-// 	// } else {
-// 	// 	await Chat.findByIdAndUpdate(chatId, {
-// 	// 		$push: {likes: userId},
-// 	// 		$inc: { likes_count: 1 },
-// 	// 	},{
-//   //     new:true
-//   // }).exec((err,result)=>{
-//   //     if(err){
-//   //         return res.status(422).json({error:err})
-//   //     }else{
-//   //         res.json(result)
-//   //     }
-//   // }
-
-//   //   )
-// };
-// 		console.log("success", "Liked!");
-// 	//}
+}
 
 const putLike = async (req, res) => {
-	const { chatId } = req.params;
-	const { userId } = req.body;
+  const chatId= req.params.chatId;
+  console.log(chatId)
+ // const  userId  = req.user._id;
+ 
+  try {
+    const chat = await Chat.findById(chatId);
 
-	try {
-		const chat = await Chat.findById(chatId);
+    if (!chat) {
+      return res.status(404).json({ error: 'Chat not found' });
+    }
+ 
+    // Check if the user has already liked the chat
+    // if (chat.likes.includes(userId)) {
+    //   return res.status(400).json({ error: 'You have already liked this chat' });
+    // }
 
-		if (!chat) {
-			return res.status(404).json({ error: "Chat not found" });
-		}
-
-		// Check if the user has already liked the chat
-		if (chat.likes.includes(userId)) {
-			return res
-				.status(400)
-				.json({ error: "You have already liked this chat" });
-		}
-
-		// Add the user's ObjectID to the likes array
-		chat.likes.push(userId);
-		chat.likes_count = chat.likes.length;
+    // Add the user's ObjectID to the likes array
+    chat.likes.push(chatId);
+    chat.likes_count = chat.likes.length;
 
 		await chat.save();
 
-		res.status(200).json(chat);
-	} catch (error) {
-		res.status(500).json({ error: "Internal server error" });
-	}
+    res.status(200).json(chat);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+  console.log("successs liked")
 };
-const putReport = async (req, res) => {
-	const chatId = "64c4b530284c3c0b22eceb03";
 
-	const chat = await Chat.findById(chatId);
-	// if (course.course_likes.includes(userId)) {
-	// 	console.log("error", "Cannot like more than once!");
-	// } else {
-	await Chat.findByIdAndUpdate(
-		chatId,
-		{
-			$push: { reports: "64c4b530284c3c0b22eceb03" },
-			$inc: { report_count: 1 },
-		},
-		{
-			new: true,
-		}
-	).exec((err, result) => {
-		if (err) {
-			return res.status(422).json({ error: err });
-		} else {
-			res.json(result);
-		}
-	});
-	console.log("success", "Liked!");
-	//}
+const putReport = async (req, res) => {
+  const chatId= req.params.chatId;
+  console.log(chatId)
+ // const  userId  = req.user._id;
+ 
+  try {
+    const chat = await Chat.findById(chatId);
+
+    if (!chat) {
+      return res.status(404).json({ error: 'Chat not found' });
+    }
+ 
+    // Check if the user has already liked the chat
+    // if (chat.likes.includes(userId)) {
+    //   return res.status(400).json({ error: 'You have already liked this chat' });
+    // }
+
+    // Add the user's ObjectID to the likes array
+    chat.reports.push(chatId);
+    chat.reports_count = chat.reports.length;
+
+    await chat.save();
+
+    res.status(200).json(chat);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+  console.log("successs reported")
 };
+
 
 module.exports = {
 	getChats,
