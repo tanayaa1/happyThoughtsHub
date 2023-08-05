@@ -64,7 +64,7 @@ const updateChat = async (req, res) => {
 const putLike = async (req, res) => {
   const chatId= req.params.chatId;
   console.log(chatId)
-  const  userId  = req.user._id;
+ // const  userId  = req.user._id;
  
   try {
     const chat = await Chat.findById(chatId);
@@ -74,12 +74,12 @@ const putLike = async (req, res) => {
     }
  
     // Check if the user has already liked the chat
-    if (chat.likes.includes(userId)) {
-      return res.status(400).json({ error: 'You have already liked this chat' });
-    }
+    // if (chat.likes.includes(userId)) {
+    //   return res.status(400).json({ error: 'You have already liked this chat' });
+    // }
 
     // Add the user's ObjectID to the likes array
-    chat.likes.push(userId);
+    chat.likes.push(chatId);
     chat.likes_count = chat.likes.length;
 
     await chat.save();

@@ -30,30 +30,59 @@ const Chat = () => {
       fetchChats();
     }
   }, [user]);
-  const handleClick = (chatId, likes_count) => {
-	if (!user) {
-		navigate("/login");
-		return;
-	}
-	setLikes(likes_count + 1);  
-	//console.log(chatId + " inside the handle click ");
-	fetch(`http://localhost:4000/chats/like/${chatId}`, {
-	  method: "PUT",
-	  body: JSON.stringify({ chatId }), // Send only the required data in the request body
-	  headers: {
-		"Content-Type": "application/json",
-		Authorization: `Bearer ${user.token}`,
-	  },
-	})
-	.then(() => {
-	  // navigate("/wishlist");
-	  console.log(chatId + " liked");
-	})
-	.catch((error) => {
-	  console.error("Error updating like:", error);
-	});
+  // const handleClick = (chatId, likes_count) => {
+	// if (!user) {
+	// 	navigate("/login");
+	// 	return;
+	// }
+	// setLikes(likes_count + 1);  
+	// //console.log(chatId + " inside the handle click ");
+	// fetch(`http://localhost:4000/chats/like/${chatId}`, {
+	//   method: "PUT",
+	//   body: JSON.stringify({ chatId }), // Send only the required data in the request body
+	//   headers: {
+	// 	"Content-Type": "application/json",
+	// 	Authorization: `Bearer ${user.token}`,
+	//   },
+	// })
+	// .then(() => {
+	//   // navigate("/wishlist");
+	//   console.log(chatId + " liked");
+	// })
+	// .catch((error) => {
+	//   console.error("Error updating like:", error);
+	// });
+  // };
+  const [likesCount, setLikesCount] = useState(0);
+
+  const likeChat = (chatId,likes_count) => {
+    // Send a PUT request to the backend to like the chat
+    fetch(`http://localhost:4000/api/chats/like/${chatId}`, {
+      method: 'PUT',
+      // headers: {
+      //   'Content-Type': 'application/json',
+      // },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        // On successful response, update the frontend to reflect the like
+        updateLikesCount();
+      })
+    
+      .catch((error) => {
+        console.error('Error:', error);
+        // Handle error scenarios here, e.g., show an error message to the user
+      });
   };
-  
+  const updateLikesCount = () => {
+    // Here, you can fetch the updated chat details from the backend
+    // For simplicity, I'll assume you already have the chat data available
+    // Replace this with actual code to update your frontend with the new likes count
+    const currentLikesCount = 42; // Replace with the actual current likes count
+    setLikesCount(currentLikesCount);
+  };
 
 
   return (
@@ -76,7 +105,7 @@ const Chat = () => {
            
 			<i
               className="material-icons"
-              onClick={() => handleClick(chat._id,chat.likes_count)}
+              onClick={() => likeChat(chat._id,chat.likes_count)}
               style={{ cursor: "pointer" }}
             >
               thumb_up
