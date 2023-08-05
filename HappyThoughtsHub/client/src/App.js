@@ -21,6 +21,7 @@ import Profile from "./components/Profile";
 import EditDoctor from "./components/EditDoctor";
 import AddDoctor from "./components/AddDoctor";
 import About from "./components/About";
+import Analysis from "./pages/Analysis";
 function App() {
 	const { user } = useAuthContext();
 
@@ -37,6 +38,11 @@ function App() {
 						<Route
 							path="/doctor/add/:email"
 							element={!user ? <Register /> : <AddDoctor />}
+						/>
+						<Route
+							path="/analysis"
+							// element={user ? <Chat /> : <Navigate to="/" />}
+							element={<Analysis />}
 						/>
 						<Route
 							path="/chat"
