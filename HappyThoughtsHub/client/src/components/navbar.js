@@ -41,7 +41,7 @@ const NavBar = () => {
 		<Navbar expand="md" className={scrolled ? "scrolled" : ""}>
 			<Container>
 				<Navbar.Brand href="/">
-					<p className="logostyle">MOOD~UP</p>
+					<p className="logostyle">HAPPY-SPACE❤️</p>
 				</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav">
 					<span className="navbar-toggler-icon"></span>

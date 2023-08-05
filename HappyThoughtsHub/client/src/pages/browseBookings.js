@@ -30,7 +30,7 @@ const DoctorProfiles = () => {
 	// };
 	return (
 		<div>
-			<h1>Browse Bokkings for {user.name}</h1>
+			<h1 style={{marginTop:"120px"}}>Browse Bookings for {user.name}</h1>
 			{doctorsData.map((doctor, index) => (
 				<div
 					key={index}
