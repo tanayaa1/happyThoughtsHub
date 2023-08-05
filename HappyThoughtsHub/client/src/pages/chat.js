@@ -132,10 +132,16 @@ const Chat = () => {
               <strong>name: </strong>
               {chat.name}
             </p>
+           
             <p>
               <strong>title: </strong>
               {chat.title}
             </p>
+
+              {/* Display the image using the chat photo URL */}
+          {chat.photo && (
+            <img src={chat.photo.url} alt="Chat Photo" style={{ maxWidth: "100px" }} />
+          )}
             <p>
               <strong>my thoughts: </strong>
               {chat.text}
@@ -148,6 +154,7 @@ const Chat = () => {
             >
               thumb_up
             </i>
+           
             <p>{chat.likes.length} likes</p>
 			{/* <button onClick={() => handleClick(chat, chat.likes_count)} size="small">
 											Like 

@@ -20,6 +20,16 @@ const chatSchema = new Schema(
 		likes_count: { type: Number, default: 0 },
 		reports: [{ type: ObjectId }],
 		reports_count: { type: Number, default: 0 },
+		photo: {
+			public_id: {
+			  type: String,
+			  required: true,
+			},
+			url: {
+			  type: String,
+			  required: true,
+			},
+		  },
 	},
 	{ timestamps: true }
 );

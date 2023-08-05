@@ -1,6 +1,15 @@
 const Chat = require('../models/chatModel')
 const User = require('../models/user')
 const mongoose = require('mongoose')
+const cloudinary =require('cloudinary').v2
+
+
+cloudinary.config({ 
+  cloud_name: 'dsz2o8e08', 
+  api_key: '328937596942251', 
+  api_secret: 'ZpLngLf-GAvAhWVIYNd7qQHqhso',
+  secure: true
+});
 
 // get all 
 const getChats = async (req, res) => {
@@ -27,17 +36,64 @@ const getChat = async (req, res) => {
 }
 
 // create a newt
-const createChat = async (req, res) => {
-  const {name, title, text} = req.body
+// const createChat = async (req, res) => {
+//   const {name, title, text,photo} = req.body
+  
 
-  // add to the database
-  try {
-    const chat = await Chat.create({name, title, text })
-    res.status(200).json(chat)
-  } catch (error) {
-    res.status(400).json({ error: error.message })
+//   const photoResult = await cloudinary.uploader.upload(photo, {
+//     folder: "Photo",
+//   });
+
+ 
+  
+//   // add to the database
+//   try {
+//     const chat = await Chat.create({name, title, text,
+//       photo: {
+//         public_id: photoResult.public_id,
+//         url: photoResult.secure_url,
+//       },
+//     })
+//     res.status(200).json(chat)
+//   } catch (error) {
+//     res.status(400).json({ error: error.message })
+//   }
+// }
+
+ // Make sure you import the correct cloudinary module and configure it with your credentials
+
+const createChat = async (req, res) => {
+  const { name, title, text, photo} = req.body;
+  
+
+  // Validate request body
+  if (!name || !title || !text ) {
+    return res.status(400).json({ error: "Missing required fields" });
   }
-}
+
+  try {
+    // Upload the photo to Cloudinary
+    const photoResult = await cloudinary.uploader.upload(photo, {
+      folder: "Photo",
+    });
+
+    // Create a new chat with the photo information
+    const chat = await Chat.create({
+      name,
+      title,
+      text,
+      photo: {
+        public_id: photoResult.public_id,
+        url: photoResult.secure_url,
+      },
+    });
+
+    res.status(200).json(chat);
+  } catch (error) {
+    console.error("Error uploading photo:", error);
+    res.status(400).json({ error: "Failed to upload photo" });
+  }
+};
 
 // delete a 
 const deleteChat = async (req, res) => {
