@@ -1,0 +1,77 @@
+/* CSS styles for the analysis1 div */
+/* CSS styles for the parent container */
+.parent-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url("../assets/img/banner-bg.png");
+   
+   
+    /* Adjust the height as needed */
+}
+
+/* CSS styles for the analysis1 div */
+.analysis1 {
+    
+    width: 600px;
+    /* Increase the width to 500px */
+    padding: 20px;
+    
+    border-radius: 8px;
+    background-color: #f1c2ff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* CSS styles for the label */
+.analysis1 label {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* CSS styles for the input */
+.analysis1 input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* CSS styles for the button */
+.analysis1 button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #7439db;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* CSS styles for the result div */
+.analysis1 div {
+    margin-top: 20px;
+}
+
+/* CSS styles for the result headings */
+.analysis1 h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* CSS styles for the result paragraphs */
+.analysis1 p {
+    font-size: 16px;
+    margin: 5px 0;
+    
+}
+.bll{
+    color: black;
+}
