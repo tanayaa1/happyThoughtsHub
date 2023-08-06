@@ -27,11 +27,8 @@
   <h3 align="center">Happy space</h3>
 
   <p align="center">
-    Where Smiles Blossom and Worries Fade Away
-    <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
+    Where Smiles Blossom and Worries Fade Away<br>
+    <a href="https://devpost.com/software/happy-space-0cvfr5">Link to Dev Post and Video<a/>
   </p>
 </div>
 
@@ -193,7 +190,6 @@ _Below is an example of how you can instruct your audience on installing and set
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<a href="https://devpost.com/software/happy-space-0cvfr5"> link to dev post and video<a/>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
